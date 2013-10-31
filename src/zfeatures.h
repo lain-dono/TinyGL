@@ -11,20 +11,20 @@
 /*
  * Matrix of internal and external pixel formats supported. 'Y' means
  * supported.
- * 
+ *
  *           External  8    16    24    32
- * Internal 
+ * Internal
  *  15                 .     .     .     .
  *  16                 Y     Y     Y     Y
  *  24                 .     Y     Y     .
  *  32                 .     Y     .     Y
- * 
+ *
  *
  * 15 bpp does not work yet (although it is easy to add it - ask me if
  * you need it).
- * 
+ *
  * Internal pixel format: see TGL_FEATURE_RENDER_BITS
- * External pixel format: see TGL_FEATURE_xxx_BITS 
+ * External pixel format: see TGL_FEATURE_xxx_BITS
  */
 
 /* enable various convertion code from internal pixel format (usually

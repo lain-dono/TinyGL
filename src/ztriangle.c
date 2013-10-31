@@ -4,17 +4,16 @@
 #define ZCMP(z,zpix) ((z) >= (zpix))
 
 void ZB_fillTriangleFlat(ZBuffer *zb,
-			 ZBufferPoint *p0,ZBufferPoint *p1,ZBufferPoint *p2)
-{
+						 ZBufferPoint *p0, ZBufferPoint *p1, ZBufferPoint *p2) {
 #if TGL_FEATURE_RENDER_BITS == 24
-    unsigned char colorR, colorG, colorB;
+	unsigned char colorR, colorG, colorB;
 #else
-    int color;
+	int color;
 #endif
 
 #define INTERP_Z
 
-#if TGL_FEATURE_RENDER_BITS == 24 
+#if TGL_FEATURE_RENDER_BITS == 24
 
 #define DRAW_INIT()				\
 {						\
@@ -41,7 +40,7 @@ void ZB_fillTriangleFlat(ZBuffer *zb,
 {						\
   color=RGB_TO_PIXEL(p2->r,p2->g,p2->b);	\
 }
-  
+
 #define PUT_PIXEL(_a)				\
 {						\
     zz=z >> ZB_POINT_Z_FRAC_BITS;		\
@@ -62,10 +61,9 @@ void ZB_fillTriangleFlat(ZBuffer *zb,
  */
 
 void ZB_fillTriangleSmooth(ZBuffer *zb,
-			   ZBufferPoint *p0,ZBufferPoint *p1,ZBufferPoint *p2)
-{
+						   ZBufferPoint *p0, ZBufferPoint *p1, ZBufferPoint *p2) {
 #if TGL_FEATURE_RENDER_BITS == 16
-        int _drgbdx;
+	int _drgbdx;
 #endif
 
 #define INTERP_Z
@@ -171,15 +169,13 @@ void ZB_fillTriangleSmooth(ZBuffer *zb,
 #include "ztriangle.h"
 }
 
-void ZB_setTexture(ZBuffer *zb,PIXEL *texture)
-{
-    zb->current_texture=texture;
+void ZB_setTexture(ZBuffer *zb, PIXEL *texture) {
+	zb->current_texture = texture;
 }
 
 void ZB_fillTriangleMapping(ZBuffer *zb,
-			    ZBufferPoint *p0,ZBufferPoint *p1,ZBufferPoint *p2)
-{
-    PIXEL *texture;
+							ZBufferPoint *p0, ZBufferPoint *p1, ZBufferPoint *p2) {
+	PIXEL *texture;
 
 #define INTERP_Z
 #define INTERP_ST
@@ -234,10 +230,9 @@ void ZB_fillTriangleMapping(ZBuffer *zb,
 #if 1
 
 void ZB_fillTriangleMappingPerspective(ZBuffer *zb,
-                            ZBufferPoint *p0,ZBufferPoint *p1,ZBufferPoint *p2)
-{
-    PIXEL *texture;
-    float fdzdx,fndzdx,ndszdx,ndtzdx;
+									   ZBufferPoint *p0, ZBufferPoint *p1, ZBufferPoint *p2) {
+	PIXEL *texture;
+	float fdzdx, fndzdx, ndszdx, ndtzdx;
 
 #define INTERP_Z
 #define INTERP_STZ
@@ -346,7 +341,7 @@ void ZB_fillTriangleMappingPerspective(ZBuffer *zb,
     n-=1;								   \
   }									   \
 }
-  
+
 #include "ztriangle.h"
 }
 
@@ -358,9 +353,8 @@ void ZB_fillTriangleMappingPerspective(ZBuffer *zb,
    bits) */
 
 void ZB_fillTriangleMappingPerspective(ZBuffer *zb,
-                            ZBufferPoint *p0,ZBufferPoint *p1,ZBufferPoint *p2)
-{
-    PIXEL *texture;
+									   ZBufferPoint *p0, ZBufferPoint *p1, ZBufferPoint *p2) {
+	PIXEL *texture;
 
 #define INTERP_Z
 #define INTERP_STZ

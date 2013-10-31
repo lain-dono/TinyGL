@@ -23,50 +23,50 @@
 
 class BGLView : public BView {
 public:
-  BGLView(BRect rect, char *name,
-          ulong resizingMode, ulong mode,
-          ulong options);
-  virtual ~BGLView();
+	BGLView(BRect rect, char *name,
+			ulong resizingMode, ulong mode,
+			ulong options);
+	virtual ~BGLView();
 
-  void LockGL();
-  void UnlockGL();
-  void SwapBuffers();
+	void LockGL();
+	void UnlockGL();
+	void SwapBuffers();
 //  BView *EmbeddedView();
 //  status_t CopyPixelsOut(BPoint source, BBitmap *dest);
 //  status_t CopyPixelsIn(BBitmap *source, BPoint dest);
 
-  virtual void ErrorCallback(GLenum errorCode);
-  virtual void Draw(BRect updateRect);
-  virtual void AttachedToWindow();
-  virtual void AllAttached();
-  virtual void DetachedFromWindow();
-  virtual void AllDetached();
-  virtual void FrameResized(float width, float height);
+	virtual void ErrorCallback(GLenum errorCode);
+	virtual void Draw(BRect updateRect);
+	virtual void AttachedToWindow();
+	virtual void AllAttached();
+	virtual void DetachedFromWindow();
+	virtual void AllDetached();
+	virtual void FrameResized(float width, float height);
 //  virtual status_t Perform(perform_code d, void *arg);
 
-  //
-  // Methods below are pass-throughs to BView for the moment.
-  //
-  
-  virtual status_t Archive(BMessage *data, bool deep = true) const;
-  virtual void MessageReceived(BMessage *msg);
-  virtual void SetResizingMode(uint32 mode);
+	//
+	// Methods below are pass-throughs to BView for the moment.
+	//
 
-  virtual void Show();
-  virtual void Hide();
+	virtual status_t Archive(BMessage *data, bool deep = true) const;
+	virtual void MessageReceived(BMessage *msg);
+	virtual void SetResizingMode(uint32 mode);
 
-  virtual BHandler *ResolveSpecifier(BMessage *msg, int32 index,
-							         BMessage *specifier, int32 form,
-							         const char *property);
-  virtual status_t GetSupportedSuites(BMessage *data);
-  //void DirectConnected( direct_buffer_info *info );
-  //void EnableDirectMode( bool enabled );
+	virtual void Show();
+	virtual void Hide();
+
+	virtual BHandler *ResolveSpecifier(BMessage *msg, int32 index,
+									   BMessage *specifier, int32 form,
+									   const char *property);
+	virtual status_t GetSupportedSuites(BMessage *data);
+	//void DirectConnected( direct_buffer_info *info );
+	//void EnableDirectMode( bool enabled );
 
 private:
-  ostgl_context *context;
-  BBitmap *bitmaps[2];
-  int currBitmap;
-  static BLocker locker;
+	ostgl_context *context;
+	BBitmap *bitmaps[2];
+	int currBitmap;
+	static BLocker locker;
 };
 
 #endif // _glview_h_

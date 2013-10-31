@@ -36,9 +36,9 @@
   ((((r) >> 1) & 0x7c00) | (((g) >> 6) & 0x03e0) | ((b) >> 11))
 typedef unsigned short PIXEL;
 /* bytes per pixel */
-#define PSZB 2 
+#define PSZB 2
 /* bits per pixel = (1 << PSZH) */
-#define PSZSH 4 
+#define PSZSH 4
 
 #elif TGL_FEATURE_RENDER_BITS == 16
 
@@ -46,8 +46,8 @@ typedef unsigned short PIXEL;
 #define RGB_TO_PIXEL(r,g,b) \
   (((r) & 0xF800) | (((g) >> 5) & 0x07E0) | ((b) >> 11))
 typedef unsigned short PIXEL;
-#define PSZB 2 
-#define PSZSH 4 
+#define PSZB 2
+#define PSZSH 4
 
 #elif TGL_FEATURE_RENDER_BITS == 24
 
@@ -72,78 +72,78 @@ typedef unsigned int PIXEL;
 #endif
 
 typedef struct {
-    int xsize,ysize;
-    int linesize; /* line size, in bytes */
-    int mode;
-    
-    unsigned short *zbuf;
-    PIXEL *pbuf;
-    int frame_buffer_allocated;
-    
-    int nb_colors;
-    unsigned char *dctable;
-    int *ctable;
-    PIXEL *current_texture;
+	int xsize, ysize;
+	int linesize; /* line size, in bytes */
+	int mode;
+
+	unsigned short *zbuf;
+	PIXEL *pbuf;
+	int frame_buffer_allocated;
+
+	int nb_colors;
+	unsigned char *dctable;
+	int *ctable;
+	PIXEL *current_texture;
 } ZBuffer;
 
 typedef struct {
-  int x,y,z;     /* integer coordinates in the zbuffer */
-  int s,t;       /* coordinates for the mapping */
-  int r,g,b;     /* color indexes */
-  
-  float sz,tz;   /* temporary coordinates for mapping */
+	int x, y, z;   /* integer coordinates in the zbuffer */
+	int s, t;      /* coordinates for the mapping */
+	int r, g, b;   /* color indexes */
+
+	float sz, tz;  /* temporary coordinates for mapping */
 } ZBufferPoint;
 
 /* zbuffer.c */
 
-ZBuffer *ZB_open(int xsize,int ysize,int mode,
-		 int nb_colors,
-		 unsigned char *color_indexes,
-		 int *color_table,
-		 void *frame_buffer);
+ZBuffer *ZB_open(int xsize, int ysize, int mode,
+				 int nb_colors,
+				 unsigned char *color_indexes,
+				 int *color_table,
+				 void *frame_buffer);
 
 
 void ZB_close(ZBuffer *zb);
 
-void ZB_resize(ZBuffer *zb,void *frame_buffer,int xsize,int ysize);
-void ZB_clear(ZBuffer *zb,int clear_z,int z,
-	      int clear_color,int r,int g,int b);
+void ZB_resize(ZBuffer *zb, void *frame_buffer, int xsize, int ysize);
+void ZB_clear(ZBuffer *zb, int clear_z, int z,
+			  int clear_color, int r, int g, int b);
 /* linesize is in BYTES */
-void ZB_copyFrameBuffer(ZBuffer *zb,void *buf,int linesize);
+void ZB_copyFrameBuffer(ZBuffer *zb, void *buf, int linesize);
 
 /* zdither.c */
 
-void ZB_initDither(ZBuffer *zb,int nb_colors,
-		   unsigned char *color_indexes,int *color_table);
+void ZB_initDither(ZBuffer *zb, int nb_colors,
+				   unsigned char *color_indexes, int *color_table);
 void ZB_closeDither(ZBuffer *zb);
-void ZB_ditherFrameBuffer(ZBuffer *zb,unsigned char *dest,
-			  int linesize);
+void ZB_ditherFrameBuffer(ZBuffer *zb, unsigned char *dest,
+						  int linesize);
 
 /* zline.c */
 
-void ZB_plot(ZBuffer *zb,ZBufferPoint *p);
-void ZB_line(ZBuffer *zb,ZBufferPoint *p1,ZBufferPoint *p2);
-void ZB_line_z(ZBuffer * zb, ZBufferPoint * p1, ZBufferPoint * p2);
+void ZB_plot(ZBuffer *zb, ZBufferPoint *p);
+void ZB_line(ZBuffer *zb, ZBufferPoint *p1, ZBufferPoint *p2);
+void ZB_line_z(ZBuffer *zb, ZBufferPoint *p1, ZBufferPoint *p2);
 
 /* ztriangle.c */
 
 void ZB_setTexture(ZBuffer *zb, PIXEL *texture);
 
 void ZB_fillTriangleFlat(ZBuffer *zb,
-		 ZBufferPoint *p1,ZBufferPoint *p2,ZBufferPoint *p3);
+						 ZBufferPoint *p1, ZBufferPoint *p2, ZBufferPoint *p3);
 
 void ZB_fillTriangleSmooth(ZBuffer *zb,
-		   ZBufferPoint *p1,ZBufferPoint *p2,ZBufferPoint *p3);
+						   ZBufferPoint *p1, ZBufferPoint *p2, ZBufferPoint *p3);
 
 void ZB_fillTriangleMapping(ZBuffer *zb,
-		    ZBufferPoint *p1,ZBufferPoint *p2,ZBufferPoint *p3);
+							ZBufferPoint *p1, ZBufferPoint *p2, ZBufferPoint *p3);
 
 void ZB_fillTriangleMappingPerspective(ZBuffer *zb,
-                    ZBufferPoint *p0,ZBufferPoint *p1,ZBufferPoint *p2);
+									   ZBufferPoint *p0, ZBufferPoint *p1, ZBufferPoint *p2);
 
 
-typedef void (*ZB_fillTriangleFunc)(ZBuffer  *,
-	    ZBufferPoint *,ZBufferPoint *,ZBufferPoint *);
+typedef void (*ZB_fillTriangleFunc)(ZBuffer *,
+									ZBufferPoint *, ZBufferPoint *, ZBufferPoint *);
 
 /* memory.c */
 void gl_free(void *p);

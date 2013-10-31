@@ -1,43 +1,44 @@
 {
-    int n, dx, dy, sx, pp_inc_1, pp_inc_2;
-    register int a;
-    register PIXEL *pp;
+	int n, dx, dy, sx, pp_inc_1, pp_inc_2;
+	register int a;
+	register PIXEL *pp;
 #if defined(INTERP_RGB) || TGL_FEATURE_RENDER_BITS == 24
-    register unsigned int r, g, b;
+	register unsigned int r, g, b;
 #endif
 #ifdef INTERP_RGB
-    register unsigned int rinc, ginc, binc;
+	register unsigned int rinc, ginc, binc;
 #endif
 #ifdef INTERP_Z
-    register unsigned short *pz;
-    int zinc;
-    register int z, zz;
+	register unsigned short *pz;
+	int zinc;
+	register int z, zz;
 #endif
 
-    if (p1->y > p2->y || (p1->y == p2->y && p1->x > p2->x)) {
-	ZBufferPoint *tmp;
-	tmp = p1;
-	p1 = p2;
-	p2 = tmp;
-    }
-    sx = zb->xsize;
-    pp = (PIXEL *) ((char *) zb->pbuf + zb->linesize * p1->y + p1->x * PSZB);
+	if (p1->y > p2->y || (p1->y == p2->y && p1->x > p2->x)) {
+		ZBufferPoint *tmp;
+		tmp = p1;
+		p1 = p2;
+		p2 = tmp;
+	}
+
+	sx = zb->xsize;
+	pp = (PIXEL *)((char *) zb->pbuf + zb->linesize * p1->y + p1->x * PSZB);
 #ifdef INTERP_Z
-    pz = zb->zbuf + (p1->y * sx + p1->x);
-    z = p1->z;
+	pz = zb->zbuf + (p1->y * sx + p1->x);
+	z = p1->z;
 #endif
 
-    dx = p2->x - p1->x;
-    dy = p2->y - p1->y;
+	dx = p2->x - p1->x;
+	dy = p2->y - p1->y;
 #ifdef INTERP_RGB
-    r = p2->r << 8;
-    g = p2->g << 8;
-    b = p2->b << 8;
+	r = p2->r << 8;
+	g = p2->g << 8;
+	b = p2->b << 8;
 #elif TGL_FEATURE_RENDER_BITS == 24
-    /* for 24 bits, we store the colors in different variables */
-    r = p2->r >> 8;
-    g = p2->g >> 8;
-    b = p2->b >> 8;
+	/* for 24 bits, we store the colors in different variables */
+	r = p2->r >> 8;
+	g = p2->g >> 8;
+	b = p2->b >> 8;
 #endif
 
 #ifdef INTERP_RGB
@@ -90,24 +91,25 @@
 	else { pp=(PIXEL *)((char *)pp + pp_inc_2); ZZ(pz+=(inc_2)); a+=dy; }\
     } while (--n >= 0);
 
-/* fin macro */
+	/* fin macro */
 
-    if (dx == 0 && dy == 0) {
-	PUTPIXEL();
-    } else if (dx > 0) {
-	if (dx >= dy) {
-	    DRAWLINE(dx, dy, sx + 1, 1);
+	if (dx == 0 && dy == 0) {
+		PUTPIXEL();
+	} else if (dx > 0) {
+		if (dx >= dy) {
+			DRAWLINE(dx, dy, sx + 1, 1);
+		} else {
+			DRAWLINE(dy, dx, sx + 1, sx);
+		}
 	} else {
-	    DRAWLINE(dy, dx, sx + 1, sx);
+		dx = -dx;
+
+		if (dx >= dy) {
+			DRAWLINE(dx, dy, sx - 1, -1);
+		} else {
+			DRAWLINE(dy, dx, sx - 1, sx);
+		}
 	}
-    } else {
-	dx = -dx;
-	if (dx >= dy) {
-	    DRAWLINE(dx, dy, sx - 1, -1);
-	} else {
-	    DRAWLINE(dy, dx, sx - 1, sx);
-	}
-    }
 }
 
 #undef INTERP_Z
@@ -118,4 +120,4 @@
 #undef PUTPIXEL
 #undef ZZ
 #undef RGB
-#undef RGBPIXEL 
+#undef RGBPIXEL

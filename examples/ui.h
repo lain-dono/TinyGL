@@ -1,11 +1,11 @@
 /*
  * tk like ui
  */
-void draw( void );
-void idle( void );
+void draw(void);
+void idle(void);
 GLenum key(int k, GLenum mask);
-void reshape( int width, int height );
-void init( void );
+void reshape(int width, int height);
+void init(void);
 int ui_loop(int argc, char **argv, const char *name);
 void tkSwapBuffers(void);
 
